@@ -1,5 +1,5 @@
 public class Solution {
-    public int StrStr(string haystack, string needle) 
+    public int StrStr(string haystack, string needle)
     {
         int lastNeedleIdx = needle.Length - 1;
         int needleIdx = 0;
