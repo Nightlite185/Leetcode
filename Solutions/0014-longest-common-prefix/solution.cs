@@ -19,7 +19,7 @@ public class Solution
                 char c = str.ElementAtOrDefault(i);
                 
                 if (c != prev)
-                    return firstStr[..i];
+                    return firstStr[..i]; 
             }
         }
     }
