@@ -5,17 +5,15 @@ public class Solution
         if (nums.Length == 0)
             return [];
 
-        if (nums.Length == 1) 
-            return [nums[0].ToString()];
-
         List<string> ranges = [];
         int prev = nums[0];
+
         bool streak = false;
         int streakStartIdx = 0;
 
-        for (int i = 1; i <= nums.Length; i++)
+        for (int i = 1; i < nums.Length; i++)
         {
-            int num = nums.ElementAtOrDefault(i);
+            int num = nums[i];
 
             if (num == prev + 1)
             {
@@ -34,13 +32,19 @@ public class Solution
                 else
                 {
                     streak = false;
-                    ranges.Add($"{nums[streakStartIdx]}->{prev}");
+                    ranges.Add(StrRange(nums[streakStartIdx], prev));
                 }
             }
 
             prev = num;
         }
 
+        ranges.Add(streak
+            ? StrRange(nums[streakStartIdx], prev)
+            : prev.ToString());
+
         return ranges;
     }
+
+    private static string StrRange(int a, int b) => $"{a}->{b}";
 }
