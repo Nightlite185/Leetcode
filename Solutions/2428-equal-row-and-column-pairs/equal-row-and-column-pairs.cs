@@ -1,36 +1,39 @@
-using System.Text;
-
+using System.Diagnostics.CodeAnalysis;
 public class Solution
 {
+    private class ArrComparer: IEqualityComparer<int[]>
+    {
+        public bool Equals(int[]? x, int[]? y)
+            => x.SequenceEqual(y);
+
+        public int GetHashCode([DisallowNull] int[] obj)
+        {
+            HashCode hash = new();
+
+            foreach(int num in obj)
+                hash.Add(num);
+
+            return hash.ToHashCode();
+        }
+    }
+    
     public int EqualPairs(int[][] grid)
     {
-        Dictionary<string, int> rows = [], cols = [];
-        StringBuilder sb = new();
+        Dictionary<int[], int> rows = new(new ArrComparer());
         int pairs = 0;
+
+        foreach (int[] row in grid)
+            rows[row] = rows.GetValueOrDefault(row) + 1;
 
         for (int i = 0; i < grid.Length; i++)
         {
-            // adding the row to dict
-            string strRow = string.Join(',', grid[i]);
-            rows[strRow] = rows.GetValueOrDefault(strRow) + 1;
-            
-            // adding column to dict
+            int[] col = new int[grid.Length];
+
             for (int j = 0; j < grid.Length; j++)
-                sb.Append(grid[j][i])
-                .Append(',');
+                col[j] = grid[j][i];
 
-            sb.Remove(sb.Length - 1, 1); // removing that last comma
-
-            string column = sb.ToString();
-            cols[column] = cols.GetValueOrDefault(column) + 1;
-
-            sb.Clear();
-        }
-
-        foreach (var row in rows)
-        {
-            if (cols.TryGetValue(row.Key, out int colCount))
-                pairs += (row.Value * colCount);
+            if (rows.TryGetValue(col, out int matchRows))
+                pairs += matchRows;
         }
 
         return pairs;
