@@ -10,16 +10,11 @@ public class Solution
         while (dummy is not null && behind is not null)
         {
             if (behind.val == dummy.val)
-            {
                 behind.next = dummy.next;
-                dummy = dummy.next;
-            }
 
-            else
-            {
-                dummy = dummy.next;
-                behind = behind.next;
-            }
+            else behind = behind.next;
+
+            dummy = dummy.next;
         }
 
         return head!;
