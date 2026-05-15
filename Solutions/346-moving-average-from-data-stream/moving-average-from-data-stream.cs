@@ -1,13 +1,19 @@
 public class MovingAverage(int size)
 {
-    private Queue<int> window = [];
+    private double currSum = 0;
+    private int count = 0;
+    private readonly Queue<int> window = [];
+
     public double Next(int val)
     {
         window.Enqueue(val);
 
-        while (window.Count > size)
-            window.Dequeue();
+        currSum += val;
+        count++;
 
-        return window.Average();
+        while (window.Count > size)
+            currSum -= window.Dequeue();
+
+        return currSum / Math.Min(size, count);
     }
 }
