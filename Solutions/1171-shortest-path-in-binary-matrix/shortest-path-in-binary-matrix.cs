@@ -5,7 +5,9 @@ public class Solution
 {
     public int ShortestPathBinaryMatrix(int[][] grid)
     {
-        if (grid[0][0] == 1) return -1;
+        if (grid[0][0] == 1 
+        || grid[^1][^1] == 1) return -1;
+        
         if (grid.Length == 1) return 1;
 
         int n = grid.Length, path = 1;
