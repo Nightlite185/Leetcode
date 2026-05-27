@@ -40,9 +40,6 @@ public class Solution
             {
                 var (x, y) = queue.Dequeue();
 
-                if (seen[x][y]) continue;
-                seen[x][y] = true;
-
                 if (mat[x][y] == 1)
                     ans[x][y] = currLvl;
                 
@@ -50,8 +47,11 @@ public class Solution
                 {
                     int newX = x + dx, newY = y + dy;
 
-                    if (isValid(newX, newY) && !seen[newX][newY])
-                        queue.Enqueue((newX, newY));
+                    if (!isValid(newX, newY) || seen[newX][newY])
+                        continue;
+
+                    seen[newX][newY] = true;
+                    queue.Enqueue((newX, newY));
                 }
             }
         }
