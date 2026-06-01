@@ -4,8 +4,11 @@ public class Solution
     public int LadderLength(string beginWord, string endWord, IList<string> wordList)
     {
         if (beginWord == endWord) return 0;
+        
+        HashSet<string> valid = [..wordList];
 
-        HashSet<string> valid = [..wordList], seen = [];
+        if (!valid.Contains(endWord)) return 0;
+
         Queue<string> queue = [];
         queue.Enqueue(beginWord);
         int currLvl = 0;
@@ -21,9 +24,7 @@ public class Solution
 
                 foreach (string nei in GetNeighbors(word))
                 {
-                    if (nei == word 
-                    || !valid.Contains(nei) 
-                    || !seen.Add(nei)) 
+                    if (!valid.Remove(nei))
                         continue;
 
                     if (nei == endWord) 
@@ -47,6 +48,8 @@ public class Solution
 
             for (int charCode = A; charCode <= Z; charCode++)
             {
+                if (charCode == og) continue;
+
                 chars[i] = (char)charCode;
                 yield return new string(chars);
             }
