@@ -2,8 +2,11 @@ public class Solution
 {
     public int LadderLength(string beginWord, string target, IList<string> wordList)
     {
-        HashSet<string> beginSet = [beginWord], endSet = [target], valid = [..wordList];
-        int currLvl = -1;
+        HashSet<string> valid = [..wordList];
+        if (!valid.Contains(target)) return 0;
+        HashSet<string> beginSet = [beginWord], endSet = [target];
+
+        int currLvl = 0;
 
         while(beginSet.Count > 0 && endSet.Count > 0)
         {
@@ -16,11 +19,11 @@ public class Solution
 
             foreach(string word in beginSet)
             {
-                if (endSet.Contains(word))
-                    return currLvl + 1;
-
                 foreach(string nei in GetNeighbors(word))
                 {
+                    if (endSet.Contains(nei))
+                        return currLvl + 1;
+
                     if (valid.Remove(nei))
                         newBeginSet.Add(nei);
                 }
