@@ -1,33 +1,27 @@
 public class Solution
 {
-    public IList<int> FindClosestElements(int[] nums, int k, int x)
+    public IList<int> FindClosestElements(int[] nums, int k, int target)
     {
         int[] ans = new int[k];
-
-        var heap = new PriorityQueue<int, (int diff, int num)>(
-            comparer: Comparer<(int diff, int num)>
-            .Create((a, b) =>
-            {
-                if (a.diff == b.diff)
-                    return b.num.CompareTo(a.num);
-
-                return b.diff.CompareTo(a.diff);
-            }));
-
-        foreach(int num in nums)
+        int left = 0, right = nums.Length - 1;
+        
+        while (left < right)
         {
-            int diff = Math.Abs(num - x);
+            if (right - left + 1 == k)
+                break;
 
-            heap.Enqueue(num, (diff, num));
+            int leftDiff = Math.Abs(nums[left] - target),
+                rightDiff = Math.Abs(nums[right] - target);
 
-            if (heap.Count > k)
-                heap.Dequeue();
+            if (leftDiff <= rightDiff)
+                right--;
+
+            else left++;
         }
 
-        for (int i = 0; heap.TryDequeue(out int num, out _); i++)
-            ans[i] = num;
+        for (int i = 0; i < k; i++)
+            ans[i] = nums[left++];
 
-        ans.Sort();
         return ans;
     }
 }
