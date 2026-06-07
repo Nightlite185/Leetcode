@@ -2,28 +2,14 @@ public class Solution
 {
     public bool CanJump(int[] nums)
     {
-        int rightBound = nums.Length - 1;
-        var seen = new bool[nums.Length];
+        int goal = nums.Length - 1;
 
-        bool dfs(int node)
+        for (int i = nums.Length-2; i >= 0; i--)
         {
-            int jumps = nums[node];
-            int maxJump = node + jumps;
-
-            if (maxJump >= rightBound)
-                return true;
-
-            for (int i = 1; i <= maxJump; i++)
-            {
-                if (seen[i]) continue;
-                seen[i] = true;
-
-                if (dfs(i)) return true;
-            }
-
-            return false;
+            if (i + nums[i] >= goal)
+                goal = i;
         }
 
-        return dfs(0);
+        return goal == 0;
     }
 }
