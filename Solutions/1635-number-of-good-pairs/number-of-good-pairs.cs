@@ -6,22 +6,16 @@ public class Solution
         int n = nums.Length;
         int pairs = 0;
 
-        var valueToIdx = new List<int>[maxValue + 1];
+        Span<int> freqByNum = stackalloc int[maxValue + 1];
 
         for (int i = 0; i < n; i++)
         {
             int num = nums[i];
 
-            var list = valueToIdx[num];
+            if (freqByNum[num] > 0)
+                pairs += freqByNum[num];
 
-            if (list is null)
-                valueToIdx[num] = [i];
-
-            else
-            {
-                pairs += list.Count;
-                list.Add(i);
-            }
+            freqByNum[num]++;
         }
 
         return pairs;
