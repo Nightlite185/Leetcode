@@ -3,10 +3,12 @@ public class Solution
     public int[] NumsSameConsecDiff(int n, int diff)
     {
         List<int> ans = [];
-
+        
         void backTrack(int currNum, int bAse, int lastDigit)
         {
-            if (bAse < 0)
+            int newBase = bAse - 1;
+
+            if (newBase < 0)
             {
                 ans.Add(currNum);
                 return;
@@ -14,7 +16,6 @@ public class Solution
 
             int upperNeighbor = lastDigit + diff;
             int lowerNeighbor = lastDigit - diff;
-            int newBase = bAse - 1;
 
             if (upperNeighbor <= 9)
             {
@@ -22,16 +23,16 @@ public class Solution
                     upperNeighbor, newBase);
 
                 backTrack(currNum + toAdd, 
-                        newBase, upperNeighbor);
+                    newBase, upperNeighbor);
             }
 
-            if (lowerNeighbor >= 0)
+            if (lowerNeighbor >= 0 && lowerNeighbor != upperNeighbor)
             {
                 int toAdd = GetNumber(
                     lowerNeighbor, newBase);
 
                 backTrack(currNum + toAdd, 
-                        newBase, lowerNeighbor);
+                    newBase, lowerNeighbor);
             }
         }
 
@@ -40,7 +41,7 @@ public class Solution
         for (int i = 1; i <= 9; i++)
             backTrack(GetNumber(i, initialBase), initialBase, i);
 
-        return ans.Distinct().ToArray();
+        return [..ans];
     }
 
     private static int GetNumber(int digit, int Base)
