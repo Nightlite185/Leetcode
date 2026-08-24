@@ -2,33 +2,24 @@ public class Solution
 {
     public int Jump(int[] nums)
     {
-        int n = nums.Length;
-        int maxIdx = n-1;
-        var memo = new int?[n];
+        int r = 0, l = 0;
+        int level = 0;
 
-        int dp(int i)
+        while (r < nums.Length - 1)
         {
-            if (i == maxIdx) return 0;
-            if (memo[i] is int m) return m;
+            int farthest = 0;
 
-            int bound = Math.Min(
-                maxIdx, i + nums[i]);
-
-            int min = int.MaxValue;
-
-            for (int j = i+1; j <= bound; j++)
+            for (int i = l; i <= r; i++)
             {
-                int next = dp(j);
-
-                if (next == int.MaxValue) continue;
-
-                min = Math.Min(min, 1 + next);
+                farthest = Math.Max(farthest, i + nums[i]);
             }
 
-            memo[i] = min;
-            return min;
+            l = r+1;
+            r = farthest;
+
+            level++;
         }
 
-        return dp(0);
+        return level;
     }
 }
